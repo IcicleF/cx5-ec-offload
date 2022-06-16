@@ -10,6 +10,8 @@ const int S = K + M;    // # chunks in a stripe
 
 const size_t SIZE = 64; // size in bytes of a chunk
 
+const uint8_t chunk_data[K] = { 0x00, 0x00, 0x00, 0x04 };
+
 int main(int argc, char **argv)
 {
     int rc;
@@ -87,7 +89,7 @@ int main(int argc, char **argv)
         // Initialize data chunks
         memset(chunk_buf, 0, sizeof(chunk_buf));
         for (int i = 0; i < K; ++i) {
-            memset(chunks[i], i + 1, SIZE);
+            memset(chunks[i], chunk_data[i], SIZE);
         }
 
         // Encode
@@ -108,7 +110,7 @@ int main(int argc, char **argv)
         ec_init_tables(K, M, decode_matrix, tbls);
         ec_encode_data(SIZE, K, M, tbls, chunks + M, chunks);
         for (int i = 0; i < M; ++i) {
-            if (chunks[i][0] != i + 1) {
+            if (chunks[i][0] != chunk_data[i]) {
                 fprintf(stderr, "decode matrix incorrect: chunks[%d] %02x != %02x\n", i, chunks[i][0], i + 1);
                 exit(-1);
             }
@@ -122,7 +124,7 @@ int main(int argc, char **argv)
         // Initialize data chunks, should be the same to that of ISA-L
         memset(chunk_buf, 0, sizeof(chunk_buf));
         for (int i = 0; i < K; ++i) {
-            memset(chunks[i], i + 1, SIZE);
+            memset(chunks[i], chunk_data[i], SIZE);
         }
 
         ibv_sge sge[S];
