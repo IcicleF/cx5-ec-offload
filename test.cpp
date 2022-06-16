@@ -10,7 +10,7 @@ const int S = K + M;    // # chunks in a stripe
 
 const size_t SIZE = 64; // size in bytes of a chunk
 
-const uint8_t chunk_data[K] = { 0x00, 0x00, 0x00, 0x04 };
+const uint8_t chunk_data[K] = { 0x01, 0x02, 0x03, 0x04 };
 
 int main(int argc, char **argv)
 {
