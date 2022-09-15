@@ -20,10 +20,10 @@ int main(int argc, char **argv)
     int num_devices = -1;
     ibv_device **dev_list = ibv_get_device_list(&num_devices);
     ibv_device *device = dev_list[num_devices - 1];
-    ibv_free_device_list(dev_list);
 
     ibv_context *ctx = ibv_open_device(device);
     ibv_pd *pd = ibv_alloc_pd(ctx);
+    ibv_free_device_list(dev_list);
 
     // Generate encode/decode matrices with ISA-L
     // Assume the first M data blocks are "lost"
